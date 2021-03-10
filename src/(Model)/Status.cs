@@ -4,5 +4,6 @@
     {
         active,
         @out,
+        folded,
     }
 }
