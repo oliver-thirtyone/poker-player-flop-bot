@@ -1,4 +1,6 @@
-﻿namespace Nancy.Simple
+﻿using System.Collections.Generic;
+
+namespace Nancy.Simple
 {
     public class Player
     {
@@ -18,5 +20,8 @@
         //     the chips the player bet in this round.)
 
         public int bet { get; set; } // The amount of chips the player put into the pot
+
+        public List<Card> hole_cards { get; set; } // The cards of the player. This is only visible for your own player
+        //     except after showdown, when cards revealed are also included.
     }
 }

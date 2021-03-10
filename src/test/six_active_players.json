@@ -60,6 +60,30 @@
       "version": "asdf2",
       "stack": 0,
       "bet": 0
+    },
+    {
+      "id": 5,
+      "name": "Five",
+      "status": "active",
+      "version": "asdf2",
+      "stack": 0,
+      "bet": 0
+    },
+    {
+      "id": 6,
+      "name": "Six",
+      "status": "active",
+      "version": "asdf2",
+      "stack": 0,
+      "bet": 0
+    },
+    {
+      "id": 7,
+      "name": "Seven",
+      "status": "out",
+      "version": "asdf2",
+      "stack": 0,
+      "bet": 0
     }
   ],
   "community_cards": [

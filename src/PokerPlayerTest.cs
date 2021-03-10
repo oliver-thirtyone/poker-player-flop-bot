@@ -14,11 +14,20 @@ namespace Nancy.Simple
             var betRequest = PokerPlayer.BetRequest(gameState);
             Assert.That(betRequest, Is.EqualTo(0));
         }
-
+        
         [Test]
         public void bet_8000_if_there_are_3_active_players()
         {
             var gameState = CreateGameState("../test/three_active_players.json");
+
+            var betRequest = PokerPlayer.BetRequest(gameState);
+            Assert.That(betRequest, Is.EqualTo(8000));
+        }
+
+        [Test]
+        public void always_bet_8000_if_we_have_a_pair()
+        {
+            var gameState = CreateGameState("../test/six_active_players_with_pair_in_hands.json");
 
             var betRequest = PokerPlayer.BetRequest(gameState);
             Assert.That(betRequest, Is.EqualTo(8000));
