@@ -7,7 +7,7 @@ namespace Nancy.Simple
 {
     public static class PokerPlayer
     {
-        public static readonly string VERSION = "ALL IN !!!!!!111elf - 16:52";
+        public static readonly string VERSION = "ALL IN !!!!!!111elf - 16:57";
 
         private const int AllIn = 8000;
         private const int CheckOrFold = 0;
@@ -37,6 +37,12 @@ namespace Nancy.Simple
 
             if (numberOfCommunityCards > 0)
             {
+                var boardScore = GetBoardScore(gameState);
+                if (boardScore >= totalScore)
+                {
+                    return CheckOrFold;
+                }
+
                 return totalScore < TotalScoreThreshold ? CheckOrFold : AllIn;
             }
 
@@ -76,6 +82,12 @@ namespace Nancy.Simple
             }
 
             return HandScoreCalculator.GetScore(cards);
+        }
+
+        private static int GetBoardScore(GameState gameState)
+        {
+            var boardCards = gameState.community_cards.Select(card => new PokerCard(card)).ToList();
+            return HandScoreCalculator.GetScore(boardCards);
         }
 
         private static IList<PokerCard> GetHandCards(Player player)

@@ -37,13 +37,6 @@ namespace Nancy.Simple
             }
         }
 
-        public static bool DoesScoreChangeWithHandcards(PokerCard firstCard, PokerCard secondCard,
-            IList<PokerCard> boardCards)
-        {
-            return CurrentHandService.GetHand(firstCard, secondCard, boardCards) !=
-                   CurrentHandService.GetHand(boardCards);
-        }
-
         public static int GetScore(IList<PokerCard> cards)
         {
             var hand = CurrentHandService.GetHand(cards);
