@@ -13,31 +13,51 @@ namespace Nancy.Simple
 
         public static Hand GetHand(IList<PokerCard> cards)
         {
-            var orderedCards = cards
-                .OrderByDescending(c => c.Rank)
-                .ToList();
+            var cardsByRank = cards.ToLookup(c => c.Rank);
+            var cardsBySuit = cards.ToLookup(c => c.Suit);
+            var countByRank = cardsByRank.ToDictionary(x => x.Key, x => x.Count());
+            var countBySuit = cardsBySuit.ToDictionary(x => x.Key, x => x.Count());
 
-            var cardsByRank = orderedCards.ToLookup(c => c.Rank);
-            var cardsBySuit = orderedCards.ToLookup(c => c.Suit);
-            var countByRank = cardsByRank.ToLookup(x => x.Key, x => cardsByRank.Count());
-            var countBySuit = cardsBySuit.ToLookup(x => x.Key, x => cardsBySuit.Count());
+            // Royal Flush doesn't happen anyway :D
 
-            if (IsStraight(orderedCards))
+            if (cardsBySuit.Any(g => IsStraight(g.ToList())))
+            {
+                return Hand.StraightFlush;
+            }
+
+            if (cardsByRank.Any(g => g.Count() >= 4))
+            {
+                return Hand.FourOfKind;
+            }
+
+            var hasThreeOfAKind = countByRank.Any(g => g.Value >= 3);
+            var hasTwoPairs = countByRank.Count(g => g.Value >= 2) >= 2;
+            if (hasThreeOfAKind && hasTwoPairs)
+            {
+                return Hand.FullHouse;
+            }
+
+            if (countBySuit.Any(g => g.Value >= 5))
+            {
+                return Hand.Flush;
+            }
+
+            if (IsStraight(cards))
             {
                 return Hand.Straight;
             }
 
-            if (countByRank.Any(g => g.Count() >= 3))
+            if (hasThreeOfAKind)
             {
                 return Hand.ThreeOfAKind;
             }
 
-            if (countByRank.Count(g => g.Count() >= 2) >= 2)
+            if (hasTwoPairs)
             {
                 return Hand.TwoPair;
             }
 
-            if (cardsByRank.Any(g => g.Count() >= 2))
+            if (countByRank.Any(g => g.Value >= 2))
             {
                 return Hand.OnePair;
             }
@@ -45,9 +65,9 @@ namespace Nancy.Simple
             return Hand.HighCard;
         }
 
-        public static bool IsStraight(List<PokerCard> orderedCards)
+        public static bool IsStraight(IList<PokerCard> cards)
         {
-            var distinctRanks = orderedCards.Select(c => c.Rank).Distinct().ToList();
+            var distinctRanks = cards.Select(c => c.Rank).Distinct().OrderByDescending(x => x).ToList();
             if (distinctRanks.Contains(14)) // ace
             {
                 distinctRanks.Add(1);

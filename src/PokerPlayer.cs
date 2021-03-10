@@ -6,7 +6,7 @@ namespace Nancy.Simple
 {
     public static class PokerPlayer
     {
-        public static readonly string VERSION = "We need to win more - 16:14";
+        public static readonly string VERSION = "We need to win more - 16:19";
 
         private const int AllIn = 8000;
         private const int CheckOrFold = 0;
