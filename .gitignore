@@ -3,5 +3,5 @@ obj/
 .DS_Store
 *.userprefs
 .idea/
-/packages/
+.vs/
 /Nancy.Simple.sln.DotSettings.user
