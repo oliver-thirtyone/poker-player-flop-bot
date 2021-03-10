@@ -33,6 +33,16 @@ namespace Nancy.Simple
             Assert.That(betRequest, Is.EqualTo(0));
         }
 
+        [Test]
+        public void call_if_we_have_high_cards_to_see_the_community_cards()
+        {
+            var gameState = CreateGameState("../test/three_active_players_without_community_cards.json");
+            const int currentBuyIn = 70;
+
+            var betRequest = PokerPlayer.BetRequest(gameState);
+            Assert.That(betRequest, Is.EqualTo(currentBuyIn));
+        }
+
         private JObject CreateGameState(string fileName = "../test/test_dummy.json")
         {
             var json = File.ReadAllText(fileName);

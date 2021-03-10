@@ -7,24 +7,42 @@ namespace Nancy.Simple
 {
     public static class PokerPlayer
     {
-        public static readonly string VERSION = "Get smarter every hour - 14:43";
+        public static readonly string VERSION = "Community! - 15:13";
         private const int AllIn = 8000;
-        private const int Fold = 0;
+        private const int CheckOrFold = 0;
         private const int CardScoreThreshold = 1000;
         private const int NumberOfPlayers = 8;
+        private const int FirstRoundMinCardScore = 25;
 
         public static int BetRequest(JObject jObject)
         {
             var gameState = GetParsedGameState(jObject);
             var activePlayers = GetActivePlayerCount(gameState);
 
+
             if (activePlayers > 3)
             {
-                return Fold;
+                return CheckOrFold;
             }
 
+            var numberOfCommunityCards = gameState.community_cards.Count;
             var cardScore = GetCardScoreFromGameState(gameState);
-            return cardScore < CardScoreThreshold ? Fold : AllIn;
+
+            if (numberOfCommunityCards > 0)
+            {
+                return cardScore < CardScoreThreshold ? CheckOrFold : AllIn;
+            }
+
+            var bigBlind = gameState.small_blind * 2;
+            var currentBuyIn = gameState.current_buy_in;
+
+            Console.Error.WriteLine("There are no community cards: buy_in <{0}>, big blind <{1}>, card score <{2}>", currentBuyIn, bigBlind, cardScore);
+            if (currentBuyIn <= bigBlind)
+            {
+                return cardScore >= FirstRoundMinCardScore ? currentBuyIn : CheckOrFold;
+            }
+
+            return cardScore < CardScoreThreshold ? CheckOrFold : AllIn;
         }
 
         private static int GetActivePlayerCount(GameState gameState)
