@@ -27,6 +27,14 @@ namespace Nancy.Simple
             this.suit = suit;
         }
 
+        public PokerCard(Card card)
+        {
+            var mappedRank = 0;
+            cardRank.TryGetValue(card.rank, out mappedRank);
+            this.rank = mappedRank;
+            this.suit = card.suit.ToString();
+        }
+
         private int MapRankToInt(string rank)
         {
             SetupCardRankDictionary();

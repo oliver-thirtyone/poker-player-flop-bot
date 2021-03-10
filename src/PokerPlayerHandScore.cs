@@ -14,7 +14,9 @@ namespace Nancy.Simple
 
         private PokerCard[] BoardCards;
 
-        private const int twinScore = 500;
+        private const int twinScore = 1000;
+        private const int boardMatchScore = 1000;
+        private const int highCardScore = 200;
 
         public PokerPlayerHandScore(PokerCard FirstCard, PokerCard SecondCard)
         {
@@ -62,7 +64,7 @@ namespace Nancy.Simple
             {
                 if (boardCard.Equals(FirstCard) || boardCard.Equals(SecondCard))
                 {
-                    return 2000;
+                    return boardMatchScore;
                 }
             }
             return 0;
@@ -70,19 +72,19 @@ namespace Nancy.Simple
 
         private int GetHighCardScore()
         {
-            var highCardScore = 0;
+            var score = 0;
 
             if (FirstCard.rank > 10)
             {
-                highCardScore += 500;
+                score += highCardScore;
             }
 
             if (SecondCard.rank > 10)
             {
-                highCardScore += 500;
+                score += highCardScore;
             }
 
-            return highCardScore;
+            return score;
         }
 
 
