@@ -7,25 +7,16 @@ namespace Nancy.Simple
     public class PokerPlayerTest
     {
         [Test]
-        public void bet_0_in_round_0()
+        public void bet_0_if_there_are_more_than_3_active_players()
         {
-            var gameState = CreateGameState();
+            var gameState = CreateGameState("../test/six_active_players.json");
+
             var betRequest = PokerPlayer.BetRequest(gameState);
             Assert.That(betRequest, Is.EqualTo(0));
         }
 
         [Test]
-        public void bet_5000_in_round_21()
-        {
-            var gameState = CreateGameState();
-            gameState["round"] = 21;
-
-            var betRequest = PokerPlayer.BetRequest(gameState);
-            Assert.That(betRequest, Is.EqualTo(5000));
-        }
-        
-        [Test]
-        public void bet_0_if_there_are_more_than_2_active_players()
+        public void bet_8000_if_there_are_3_active_players()
         {
             var gameState = CreateGameState("../test/six_active_players.json");
 
