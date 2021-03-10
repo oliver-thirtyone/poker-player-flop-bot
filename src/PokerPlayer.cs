@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
@@ -6,11 +7,11 @@ namespace Nancy.Simple
 {
     public static class PokerPlayer
     {
-        public static readonly string VERSION = "We need to win more - 16:19";
+        public static readonly string VERSION = "ALL IN !!!!!!111elf - 16:52";
 
         private const int AllIn = 8000;
         private const int CheckOrFold = 0;
-        private const int CardScoreThreshold = 1000;
+        private const int TotalScoreThreshold = 1000;
         private const int NumberOfPlayers = 8;
         private const int FirstRoundMinCardScore = 21;
         private const int FirstRoundAllInScore = 25;
@@ -20,29 +21,30 @@ namespace Nancy.Simple
             var gameState = GetParsedGameState(jObject);
             var activePlayers = GetActivePlayerCount(gameState);
 
+            var handCardScore = GetHandCardScore(gameState);
+            if (handCardScore >= FirstRoundAllInScore)
+            {
+                return AllIn;
+            }
+
             if (activePlayers > 4)
             {
                 return CheckOrFold;
             }
 
             var numberOfCommunityCards = gameState.community_cards.Count;
-            var cardScore = GetCardScoreFromGameState(gameState);
+            var totalScore = GetTotalScore(gameState);
 
             if (numberOfCommunityCards > 0)
             {
-                return cardScore < CardScoreThreshold ? CheckOrFold : AllIn;
+                return totalScore < TotalScoreThreshold ? CheckOrFold : AllIn;
             }
 
-            return CheckUntilWeSeeCommunityCards(gameState, cardScore);
+            return CheckUntilWeSeeCommunityCards(gameState, totalScore);
         }
 
         private static int CheckUntilWeSeeCommunityCards(GameState gameState, int cardScore)
         {
-            if (cardScore >= FirstRoundAllInScore)
-            {
-                return AllIn;
-            }
-
             var bigBlind = gameState.small_blind * 2;
             var currentBuyIn = gameState.current_buy_in;
 
@@ -54,6 +56,48 @@ namespace Nancy.Simple
             return CheckOrFold;
         }
 
+        private static int GetHandCardScore(GameState gameState)
+        {
+            var player = GetCurrentPlayer(gameState);
+            var cards = GetHandCards(player);
+
+            return HandScoreCalculator.GetScore(cards);
+        }
+
+        private static int GetTotalScore(GameState gameState)
+        {
+            var player = GetCurrentPlayer(gameState);
+            var cards = GetHandCards(player);
+
+            var boardCards = gameState.community_cards.Select(card => new PokerCard(card)).ToList();
+            foreach (var boardCard in boardCards)
+            {
+                cards.Add(boardCard);
+            }
+
+            return HandScoreCalculator.GetScore(cards);
+        }
+
+        private static IList<PokerCard> GetHandCards(Player player)
+        {
+            var cards = new List<PokerCard>();
+
+            if (player == null)
+            {
+                return cards;
+            }
+
+            if (player.hole_cards[0] == null || player.hole_cards[1] == null)
+            {
+                return cards;
+            }
+
+            cards.Add(new PokerCard(player.hole_cards[0]));
+            cards.Add(new PokerCard(player.hole_cards[1]));
+
+            return cards;
+        }
+
         private static int GetActivePlayerCount(GameState gameState)
         {
             var players = gameState.players;
@@ -62,31 +106,11 @@ namespace Nancy.Simple
             return NumberOfPlayers - outPlayers;
         }
 
-        public static void ShowDown(JObject gameState)
-        {
-            //TODO: Use this method to showdown
-        }
-
-        private static int GetCardScoreFromGameState(GameState gameState)
+        private static Player GetCurrentPlayer(GameState gameState)
         {
             var playerId = gameState.in_action;
             var player = gameState.players.SingleOrDefault(p => p.id == playerId);
-
-            if (player == null)
-            {
-                return 0;
-            }
-
-            if (player.hole_cards[0] == null || player.hole_cards[1] == null)
-            {
-                return 0;
-            }
-
-            var card1 = new PokerCard(player.hole_cards[0]);
-            var card2 = new PokerCard(player.hole_cards[1]);
-            var boardCards = gameState.community_cards.Select(card => new PokerCard(card)).ToList();
-
-            return HandScoreCalculator.GetScore(card1, card2, boardCards);
+            return player;
         }
 
         private static GameState GetParsedGameState(JObject gameState)
@@ -101,6 +125,11 @@ namespace Nancy.Simple
             }
 
             return null;
+        }
+
+        public static void ShowDown(JObject gameState)
+        {
+            //TODO: Use this method to showdown
         }
     }
 }

@@ -42,6 +42,15 @@ namespace Nancy.Simple
             var betRequest = PokerPlayer.BetRequest(gameState);
             Assert.That(betRequest, Is.EqualTo(currentBuyIn));
         }
+        
+        [Test]
+        public void go_all_in_with_high_cards_without_seeing_the_community_cards()
+        {
+            var gameState = CreateGameState("../test/three_active_players_without_community_cards_and_high_cards.json");
+
+            var betRequest = PokerPlayer.BetRequest(gameState);
+            Assert.That(betRequest, Is.EqualTo(8000));
+        }
 
         private JObject CreateGameState(string fileName = "../test/test_dummy.json")
         {

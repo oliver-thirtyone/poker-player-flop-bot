@@ -99,6 +99,7 @@
   <ItemGroup>
     <Content Include="test\six_active_players.json" />
     <Content Include="test\three_active_players_without_community_cards.json" />
+    <Content Include="test\three_active_players_without_community_cards_and_high_cards.json" />
     <Content Include="test\three_active_players_with_high_cards.json" />
     <Content Include="test\three_active_players_with_low_cards.json" />
     <Content Include="Views\ok">
