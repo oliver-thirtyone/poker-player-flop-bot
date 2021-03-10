@@ -6,7 +6,7 @@ namespace Nancy.Simple
 {
     public static class PokerPlayer
     {
-        public static readonly string VERSION = "Eigentlich hani scho Hunger, will es isch 11:39";
+        public static readonly string VERSION = "'Heavy Waterfall' your up next - 11:44";
         private const int AllIn = 8000;
 
         public static int BetRequest(JObject jObject)
