@@ -4,24 +4,46 @@ using Newtonsoft.Json.Linq;
 
 namespace Nancy.Simple
 {
-	public static class PokerPlayer
-	{
-		public static readonly string VERSION = "Eigentlich hani scho Hunger, will es isch 11:20";
+    public static class PokerPlayer
+    {
+        public static readonly string VERSION = "Eigentlich hani scho Hunger, will es isch 11:39";
+        private const int AllIn = 8000;
 
-        public static int BetRequest(JObject gameState)
+        public static int BetRequest(JObject jObject)
         {
-            var parsedGameState = GetParsedGameState(gameState);
+            var gameState = GetParsedGameState(jObject);
 
-            var players = parsedGameState.players;
-            var activePlayers = players.Select(player => player.status)
-                .Count(status => status == Status.active);
+            if (IsPlayerHoldingAPair(gameState))
+            {
+                return AllIn;
+            }
 
-            return activePlayers > 3 ? 0 : 8000;
+            var players = gameState.players;
+            var outPlayers = players.Select(player => player.status)
+                .Count(status => status == Status.@out);
+
+            return outPlayers < 5 ? 0 : AllIn;
         }
 
         public static void ShowDown(JObject gameState)
         {
             //TODO: Use this method to showdown
+        }
+
+        private static bool IsPlayerHoldingAPair(GameState gameState)
+        {
+            var playerId = gameState.in_action;
+            var player = gameState.players.SingleOrDefault(p => p.id == playerId);
+
+            if (player == null)
+            {
+                return false;
+            }
+
+            var card1 = player.hole_cards[0];
+            var card2 = player.hole_cards[1];
+
+            return card1.rank == card2.rank;
         }
 
         private static GameState GetParsedGameState(JObject gameState)
