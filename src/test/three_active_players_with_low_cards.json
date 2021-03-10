@@ -28,11 +28,11 @@
       "bet": 80,
       "hole_cards": [
         {
-          "rank": "K",
+          "rank": "6",
           "suit": "hearts"
         },
         {
-          "rank": "K",
+          "rank": "5",
           "suit": "spades"
         }
       ]
@@ -40,7 +40,7 @@
     {
       "id": 2,
       "name": "Chuck",
-      "status": "out",
+      "status": "active",
       "version": "Default random player",
       "stack": 0,
       "bet": 0
@@ -48,7 +48,7 @@
     {
       "id": 3,
       "name": "three",
-      "status": "active",
+      "status": "out",
       "version": "asdf",
       "stack": 0,
       "bet": 0
@@ -56,7 +56,7 @@
     {
       "id": 4,
       "name": "four",
-      "status": "active",
+      "status": "out",
       "version": "asdf2",
       "stack": 0,
       "bet": 0
@@ -64,7 +64,7 @@
     {
       "id": 5,
       "name": "Five",
-      "status": "active",
+      "status": "out",
       "version": "asdf2",
       "stack": 0,
       "bet": 0
@@ -72,7 +72,7 @@
     {
       "id": 6,
       "name": "Six",
-      "status": "active",
+      "status": "out",
       "version": "asdf2",
       "stack": 0,
       "bet": 0

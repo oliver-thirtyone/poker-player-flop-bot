@@ -16,21 +16,21 @@ namespace Nancy.Simple
         }
         
         [Test]
-        public void bet_8000_if_there_are_3_active_players()
+        public void bet_8000_if_there_are_3_active_players_and_we_have_high_score()
         {
-            var gameState = CreateGameState("../test/three_active_players.json");
+            var gameState = CreateGameState("../test/three_active_players_with_high_cards.json");
 
             var betRequest = PokerPlayer.BetRequest(gameState);
             Assert.That(betRequest, Is.EqualTo(8000));
         }
 
         [Test]
-        public void always_bet_8000_if_we_have_a_pair()
+        public void always_fold_if_we_have_cards_with_low_score()
         {
-            var gameState = CreateGameState("../test/six_active_players_with_pair_in_hands.json");
+            var gameState = CreateGameState("../test/three_active_players_with_low_cards.json");
 
             var betRequest = PokerPlayer.BetRequest(gameState);
-            Assert.That(betRequest, Is.EqualTo(8000));
+            Assert.That(betRequest, Is.EqualTo(0));
         }
 
         private JObject CreateGameState(string fileName = "../test/test_dummy.json")

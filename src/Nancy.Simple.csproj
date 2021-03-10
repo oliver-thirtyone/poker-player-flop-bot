@@ -77,14 +77,14 @@
     <Compile Include="(Model)\Card.cs" />
     <Compile Include="(Model)\GameState.cs" />
     <Compile Include="(Model)\Player.cs" />
+    <Compile Include="(Model)\PokerCard.cs" />
     <Compile Include="(Model)\Status.cs" />
     <Compile Include="(Model)\Suit.cs" />
     <Compile Include="MainModule.cs" />
     <Compile Include="App.cs" />
     <Compile Include="PokerPlayer.cs" />
     <Compile Include="PokerPlayerTest.cs" />
-    <Compile Include="PokerPlayerHandScore.cs" />
-    <Compile Include="PokerCard.cs" />
+    <Compile Include="HandScoreCalculator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -94,9 +94,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="test\six_active_players.json" />
-    <Content Include="test\six_active_players_with_pair_in_hands.json" />
-    <Content Include="test\test_dummy.json" />
-    <Content Include="test\three_active_players.json" />
+    <Content Include="test\three_active_players_with_high_cards.json" />
+    <Content Include="test\three_active_players_with_low_cards.json" />
     <Content Include="Views\ok">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
