@@ -18,10 +18,10 @@ namespace Nancy.Simple
         [Test]
         public void bet_8000_if_there_are_3_active_players()
         {
-            var gameState = CreateGameState("../test/six_active_players.json");
+            var gameState = CreateGameState("../test/three_active_players.json");
 
             var betRequest = PokerPlayer.BetRequest(gameState);
-            Assert.That(betRequest, Is.EqualTo(0));
+            Assert.That(betRequest, Is.EqualTo(8000));
         }
 
         private JObject CreateGameState(string fileName = "../test/test_dummy.json")

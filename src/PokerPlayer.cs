@@ -6,15 +6,15 @@ namespace Nancy.Simple
 {
 	public static class PokerPlayer
 	{
-		public static readonly string VERSION = "11:16";
+		public static readonly string VERSION = "Eigentlich hani scho Hunger, will es isch 11:20";
 
         public static int BetRequest(JObject gameState)
         {
             var parsedGameState = GetParsedGameState(gameState);
 
-            var players = gameState["players"].Children();
-            var activePlayers = players.Select(player => player["status"].ToObject<string>())
-                .Count(status => status == "active");
+            var players = parsedGameState.players;
+            var activePlayers = players.Select(player => player.status)
+                .Count(status => status == Status.active);
 
             return activePlayers > 3 ? 0 : 8000;
         }
@@ -24,7 +24,7 @@ namespace Nancy.Simple
             //TODO: Use this method to showdown
         }
 
-        private static object GetParsedGameState(JObject gameState)
+        private static GameState GetParsedGameState(JObject gameState)
         {
             try
             {
