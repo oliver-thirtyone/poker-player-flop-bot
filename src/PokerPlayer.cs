@@ -18,13 +18,6 @@ namespace Nancy.Simple
                 return AllIn;
             }
 
-            var playerScore = GetScoreFromGameState(gameState);
-
-            if (playerScore >= 1000)
-            {
-                return AllIn;
-            }
-
             var players = gameState.players;
             var outPlayers = players.Select(player => player.status)
                 .Count(status => status == Status.@out);
