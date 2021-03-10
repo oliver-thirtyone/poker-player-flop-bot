@@ -74,6 +74,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="(Model)\Card.cs" />
+    <Compile Include="(Model)\GameState.cs" />
+    <Compile Include="(Model)\Player.cs" />
+    <Compile Include="(Model)\Status.cs" />
+    <Compile Include="(Model)\Suit.cs" />
     <Compile Include="MainModule.cs" />
     <Compile Include="App.cs" />
     <Compile Include="PokerPlayer.cs" />
