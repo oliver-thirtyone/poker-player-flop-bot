@@ -31,6 +31,12 @@ namespace Nancy.Simple
             Suit = card.suit;
         }
 
+        public PokerCard(int rank, Suit suit)
+        {
+            Rank = rank;
+            Suit = suit;
+        }
+
         public PokerCard(string rank, Suit suit)
         {
             Rank = MapRankToInt(rank);
