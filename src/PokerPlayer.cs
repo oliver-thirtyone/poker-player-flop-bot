@@ -8,7 +8,8 @@ namespace Nancy.Simple
 
 		public static int BetRequest(JObject gameState)
 		{
-			return 5000;
+			var round = gameState["round"].ToObject<int>();
+			return round > 20 ? 5000 : 0;
 		}
 
 		public static void ShowDown(JObject gameState)
