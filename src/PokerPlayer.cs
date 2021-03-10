@@ -13,12 +13,12 @@ namespace Nancy.Simple
         private const int CardScoreThreshold = 1000;
         private const int NumberOfPlayers = 8;
         private const int FirstRoundMinCardScore = 21;
+        private const int FirstRoundAllInScore = 25;
 
         public static int BetRequest(JObject jObject)
         {
             var gameState = GetParsedGameState(jObject);
             var activePlayers = GetActivePlayerCount(gameState);
-
 
             if (activePlayers > 4)
             {
@@ -33,16 +33,25 @@ namespace Nancy.Simple
                 return cardScore < CardScoreThreshold ? CheckOrFold : AllIn;
             }
 
+            return CheckUntilWeSeeCommunityCards(gameState, cardScore);
+        }
+
+        private static int CheckUntilWeSeeCommunityCards(GameState gameState, int cardScore)
+        {
+            if (cardScore >= FirstRoundAllInScore)
+            {
+                return AllIn;
+            }
+
             var bigBlind = gameState.small_blind * 2;
             var currentBuyIn = gameState.current_buy_in;
 
-            Console.Error.WriteLine("There are no community cards: buy_in <{0}>, big blind <{1}>, card score <{2}>", currentBuyIn, bigBlind, cardScore);
             if (currentBuyIn <= bigBlind)
             {
                 return cardScore >= FirstRoundMinCardScore ? currentBuyIn : CheckOrFold;
             }
 
-            return cardScore < CardScoreThreshold ? CheckOrFold : AllIn;
+            return CheckOrFold;
         }
 
         private static int GetActivePlayerCount(GameState gameState)
