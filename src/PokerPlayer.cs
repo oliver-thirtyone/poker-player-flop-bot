@@ -6,7 +6,7 @@ namespace Nancy.Simple
 {
     public static class PokerPlayer
     {
-        public static readonly string VERSION = "T-Minus One hour - 16:04";
+        public static readonly string VERSION = "We need to win more - 16:14";
 
         private const int AllIn = 8000;
         private const int CheckOrFold = 0;
@@ -20,7 +20,7 @@ namespace Nancy.Simple
             var activePlayers = GetActivePlayerCount(gameState);
 
 
-            if (activePlayers > 3)
+            if (activePlayers > 4)
             {
                 return CheckOrFold;
             }
