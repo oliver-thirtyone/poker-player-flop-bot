@@ -80,6 +80,7 @@
     <Compile Include="(Model)\PokerCard.cs" />
     <Compile Include="(Model)\Status.cs" />
     <Compile Include="(Model)\Suit.cs" />
+    <Compile Include="HandScoreCalculatorTest.cs" />
     <Compile Include="MainModule.cs" />
     <Compile Include="App.cs" />
     <Compile Include="PokerPlayer.cs" />

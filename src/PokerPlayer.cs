@@ -7,7 +7,7 @@ namespace Nancy.Simple
 {
     public static class PokerPlayer
     {
-        public static readonly string VERSION = "Average is good? - 13:50";
+        public static readonly string VERSION = "Get smarter every hour - 14:43";
         private const int AllIn = 8000;
         private const int Fold = 0;
         private const int CardScoreThreshold = 1000;

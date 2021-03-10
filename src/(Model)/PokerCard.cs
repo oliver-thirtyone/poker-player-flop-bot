@@ -15,19 +15,26 @@ namespace Nancy.Simple
             {"4", 4},
             {"5", 5},
             {"6", 6},
-            {"8", 7},
-            {"9", 8},
-            {"10", 9},
-            {"J", 10},
-            {"Q", 11},
-            {"K", 12},
-            {"A", 13}
+            {"7", 7},
+            {"8", 8},
+            {"9", 9},
+            {"10", 10},
+            {"J", 11},
+            {"Q", 12},
+            {"K", 13},
+            {"A", 14}
         };
 
         public PokerCard(Card card)
         {
             Rank = MapRankToInt(card.rank);
             Suit = card.suit;
+        }
+
+        public PokerCard(string rank, Suit suit)
+        {
+            Rank = MapRankToInt(rank);
+            Suit = suit;
         }
 
         private static int MapRankToInt(string rank)
