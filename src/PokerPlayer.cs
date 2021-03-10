@@ -8,11 +8,12 @@ namespace Nancy.Simple
     public static class PokerPlayer
     {
         public static readonly string VERSION = "Community! - 15:13";
+
         private const int AllIn = 8000;
         private const int CheckOrFold = 0;
         private const int CardScoreThreshold = 1000;
         private const int NumberOfPlayers = 8;
-        private const int FirstRoundMinCardScore = 25;
+        private const int FirstRoundMinCardScore = 21;
 
         public static int BetRequest(JObject jObject)
         {
