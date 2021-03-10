@@ -5,15 +5,13 @@ namespace Nancy.Simple
 {
     public static class CurrentHandService
     {
-        public static Hand GetHand(PokerCard firstCard, PokerCard secondCard, List<PokerCard> communityCards)
+        public static Hand GetHand(PokerCard firstCard, PokerCard secondCard, IList<PokerCard> communityCards)
         {
-            var allCards = new List<PokerCard>(communityCards);
-            allCards.Add(firstCard);
-            allCards.Add(secondCard);
+            var allCards = new List<PokerCard>(communityCards) {firstCard, secondCard};
             return GetHand(allCards);
         }
 
-        public static Hand GetHand(List<PokerCard> cards)
+        public static Hand GetHand(IList<PokerCard> cards)
         {
             var orderedCards = cards
                 .OrderByDescending(c => c.Rank)

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using NUnit.Framework;
 
 namespace Nancy.Simple
@@ -18,7 +17,7 @@ namespace Nancy.Simple
         {
             var setup = new Setup(2, 3, 4, 5, 6);
 
-            var actual = CurrentHandService.IsStraight(setup.orderedCards);
+            var actual = CurrentHandService.IsStraight(setup.GetOrderedCards());
 
             Assert.That(actual, Is.True);
         }
@@ -28,7 +27,7 @@ namespace Nancy.Simple
         {
             var setup = new Setup(2, 3, 4, 5, Ace);
 
-            var actual = CurrentHandService.IsStraight(setup.orderedCards);
+            var actual = CurrentHandService.IsStraight(setup.GetOrderedCards());
 
             Assert.That(actual, Is.True);
         }
@@ -38,7 +37,7 @@ namespace Nancy.Simple
         {
             var setup = new Setup(2, 3, 4, 5, 8);
 
-            var actual = CurrentHandService.IsStraight(setup.orderedCards);
+            var actual = CurrentHandService.IsStraight(setup.GetOrderedCards());
 
             Assert.That(actual, Is.False);
         }
@@ -48,7 +47,7 @@ namespace Nancy.Simple
         {
             var setup = new Setup();
 
-            var actual = CurrentHandService.IsStraight(setup.orderedCards);
+            var actual = CurrentHandService.IsStraight(setup.GetOrderedCards());
 
             Assert.That(actual, Is.False);
         }
@@ -58,7 +57,7 @@ namespace Nancy.Simple
         {
             var setup = new Setup(5);
 
-            var actual = CurrentHandService.IsStraight(setup.orderedCards);
+            var actual = CurrentHandService.IsStraight(setup.GetOrderedCards());
 
             Assert.That(actual, Is.False);
         }
@@ -68,7 +67,7 @@ namespace Nancy.Simple
         {
             var setup = new Setup(3, 3, 5, 6, 7, 7, 8, 9, 11, 11);
 
-            var actual = CurrentHandService.IsStraight(setup.orderedCards);
+            var actual = CurrentHandService.IsStraight(setup.GetOrderedCards());
 
             Assert.That(actual, Is.True);
         }
@@ -77,7 +76,10 @@ namespace Nancy.Simple
         {
             private readonly List<PokerCard> cards = new List<PokerCard>();
 
-            public List<PokerCard> orderedCards => cards.OrderByDescending(c => c.Rank).ToList();
+            public List<PokerCard> GetOrderedCards()
+            {
+                return cards.OrderByDescending(c => c.Rank).ToList();
+            }
 
             public Setup(Suit suit = Suit.clubs, params int[] ranks)
             {

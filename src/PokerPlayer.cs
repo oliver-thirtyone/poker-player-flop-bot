@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
@@ -7,7 +6,7 @@ namespace Nancy.Simple
 {
     public static class PokerPlayer
     {
-        public static readonly string VERSION = "Community! - 15:13";
+        public static readonly string VERSION = "T-Minus One hour - 16:04";
 
         private const int AllIn = 8000;
         private const int CheckOrFold = 0;
@@ -76,7 +75,7 @@ namespace Nancy.Simple
 
             var card1 = new PokerCard(player.hole_cards[0]);
             var card2 = new PokerCard(player.hole_cards[1]);
-            var boardCards = new List<PokerCard>();
+            var boardCards = gameState.community_cards.Select(card => new PokerCard(card)).ToList();
 
             return HandScoreCalculator.GetScore(card1, card2, boardCards);
         }
