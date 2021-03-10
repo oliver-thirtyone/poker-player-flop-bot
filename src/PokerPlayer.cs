@@ -18,6 +18,13 @@ namespace Nancy.Simple
                 return AllIn;
             }
 
+            var playerScore = GetScoreFromGameState(gameState);
+
+            if (playerScore >= 1000)
+            {
+                return AllIn;
+            }
+
             var players = gameState.players;
             var outPlayers = players.Select(player => player.status)
                 .Count(status => status == Status.@out);
@@ -28,6 +35,30 @@ namespace Nancy.Simple
         public static void ShowDown(JObject gameState)
         {
             //TODO: Use this method to showdown
+        }
+
+        private static int GetScoreFromGameState(GameState gameState)
+        {
+            var playerId = gameState.in_action;
+            var player = gameState.players.SingleOrDefault(p => p.id == playerId);
+
+            if (player == null)
+            {
+                return 0;
+            }
+
+            var card1 = new PokerCard(player.hole_cards[0]);
+            var card2 = new PokerCard(player.hole_cards[1]);
+
+            if (card1 == null || card2 == null)
+            {
+                return 0;
+            }
+
+
+            var PokerPlayerHandScore = new PokerPlayerHandScore(card1, card2);
+
+            return PokerPlayerHandScore.GetScore();
         }
 
         private static bool IsPlayerHoldingAPair(GameState gameState)
